@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Layout from '@components/Layout';
 import Container from '@components/Container';
 import Button from '@components/Button';
-
+import Banner from '../../public/images/mehran-banner-cropped.jpg'
 // import images from '@data/images';
 import { search, mapImageResources, getFolders } from '../lib/cloudinary';
 import styles from '@styles/Home.module.scss';
@@ -14,13 +14,14 @@ export default function Home({ images : defaultImages, nextCursor: defaultNextCu
 
   const [images, setImages] = useState(defaultImages);
   const [nextCursor, setNextCursor] = useState(defaultNextCursor);
-  const [activeFolder, setActiveFolder] = useState('');
+  const [activeFolder, setActiveFolder] = useState('Mehran_Jamali_Art');
+  console.log(activeFolder);
   async function handleLoadMore(event) {
     event.preventDefault();
     const results = await fetch('/api/search', {
       method: 'POST',
       body: JSON.stringify({
-        // expression: `folder=""`,
+        expression: `folder="${activeFolder}"`,
         nextCursor,
       }),
     }).then((r) => r.json());
@@ -40,24 +41,63 @@ export default function Home({ images : defaultImages, nextCursor: defaultNextCu
     setImages([]);
   }
 
+  useEffect(() => {
+    (async function run() {
+      const results = await fetch('/api/search', {
+        method: 'POST',
+        body: JSON.stringify({
+          expression: `folder="${activeFolder}"`,
+          nextCursor,
+        }),
+      }).then((r) => r.json());
+      const { resources, next_cursor: updatedNextCursor } = results;
+
+      const images = mapImageResources(resources);
+
+      setImages((prevImages) => [...prevImages, ...images]);
+      setNextCursor(updatedNextCursor);
+    })();
+  }, [activeFolder, nextCursor]);
+
   return (
     <Layout>
       <Head>
-        <title>My Images</title>
-        <meta name='description' content='All of my cool images.' />
+        <title>Mehran Jamali Art</title>
+        <meta name='description' content='Mehran Jamali Art' />
       </Head>
-
+    <Image src = {Banner} height = {800} />
       <Container>
-        <h1 className='sr-only'>My Images</h1>
+        <h1 className='sr-only'>Mehran Jamali Art</h1>
 
         <h2 className={styles.header}>Images</h2>
 
-        <ul className={styles.folders} onClick ={handleOnFolderClick}>
+        <ul className={styles.folders} onClick={handleOnFolderClick}>
           {folders.map((folder) => {
+            // console.log(folder);
             return (
               <li key={folder.path}>
-                <button data-folder-path={folder.path } >{folder.name}</button>
-                
+                <button data-folder-path={folder.path}>{folder.name}</button>
+              </li>
+            );
+          })}
+        </ul>
+        <h2>IMAGES</h2>
+        <ul className={styles.images}>
+          {images.map((image) => {
+            // console.log(image);
+            return (
+              <li key={image.id}>
+                <a href={image.link} rel='noreferrer'>
+                  <div className={styles.imageImage}>
+                    <Image
+                      width={image.width}
+                      height={image.height}
+                      src={image.image}
+                      alt=''
+                    />
+                  </div>
+                  <h3 className={styles.imageTitle}>{image.title}</h3>
+                </a>
               </li>
             );
           })}
@@ -73,15 +113,20 @@ export default function Home({ images : defaultImages, nextCursor: defaultNextCu
 // get images from cloudinary admin api using authentication headers with the api key and secret
 
 export async function getStaticProps() {
-  const results = await search(
-  {  expression: 'folder=""'}
-  );
+      // const results = await fetch('/api/search', {
+      //   method: 'POST',
+      //   body: JSON.stringify({
+      //     expression: `folder="${activeFolder}"`,
+      //     nextCursor,
+      //   }),
+      // }).then((r) => r.json());
+  const results = await search({ expression: 'folder="Mehran_Jamali_Art"' });
 
   const { resources, next_cursor: nextCursor } = results;
   const images = mapImageResources(resources);
   const {folders} = await getFolders();
 
-    console.log('folders', folders);
+    console.log('resources', resources);
 
   return {
     props: {

@@ -1,9 +1,9 @@
 {
   "name": "demo-image-list-starter",
   "author": {
-    "name": "Colby Fayock",
-    "email": "hello@colbyfayock.com",
-    "url": "https://twitter.com/colbyfayock"
+    "name": "Chris Jamali",
+    "email": "jamalichristopher@gmail.com",
+    "url": "https://www.linkedin.com/in/chris-jamali/"
   },
   "private": true,
   "license": "MIT",
@@ -14,9 +14,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/icon": "^3.0.15",
+    "@chakra-ui/react": "^2.4.9",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "framer-motion": "^9.0.2",
     "next": "12.0.7",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "sass": "^1.45.0"
   },
   "devDependencies": {

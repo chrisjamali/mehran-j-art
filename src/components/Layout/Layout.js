@@ -15,13 +15,14 @@ const Layout = ({ children, className, ...rest }) => {
   return (
     <div className={layoutClassName} {...rest}>
       <Head>
-        <link rel="icon" href="/favicon.ico" />
+        {/* <link rel='icon' href='/favicon.ico' /> */}
+        <link rel='icon' href='/images/IMG_5500.jpg' />
       </Head>
       <Header />
-      <main className={styles.main}>{ children }</main>
+      <main className={styles.main}>{children}</main>
       <Footer />
     </div>
-  )
+  );
 }
 
 export default Layout;
