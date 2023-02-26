@@ -96,7 +96,7 @@ export default function Home({ images : defaultImages, nextCursor: defaultNextCu
                       alt=''
                     />
                   </div>
-                  <h3 className={styles.imageTitle}>{image.title}</h3>
+                  {/* <h3 className={styles.imageTitle}>{image.title}</h3> */}
                 </a>
               </li>
             );
