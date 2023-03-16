@@ -10,7 +10,7 @@ const Header = () => {
       <Container className={styles.headerContainer}>
         <p className={styles.headerTitle}>
           <Link href="/">
-            <a>My Images</a>
+            <a>Mehran Jamali Art</a>
           </Link>
         </p>
       </Container>
