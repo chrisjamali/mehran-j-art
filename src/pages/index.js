@@ -18,52 +18,52 @@ export default function Home({
   totalCount: defaultTotalCount,
   folders,
 }) {
-  const [images, setImages] = useState(defaultImages);
-  const [nextCursor, setNextCursor] = useState(defaultNextCursor);
-  const [activeFolder, setActiveFolder] = useState('Mehran_Jamali_Art');
-  console.log(activeFolder);
-  async function handleLoadMore(event) {
-    event.preventDefault();
-    const results = await fetch('/api/search', {
-      method: 'POST',
-      body: JSON.stringify({
-        expression: `folder="${activeFolder}"`,
-        nextCursor,
-      }),
-    }).then((r) => r.json());
-    const { resources, next_cursor: updatedNextCursor } = results;
+  // const [images, setImages] = useState(defaultImages);
+  // const [nextCursor, setNextCursor] = useState(defaultNextCursor);
+  // const [activeFolder, setActiveFolder] = useState('Mehran_Jamali_Art');
+  // console.log(activeFolder);
+  // async function handleLoadMore(event) {
+  //   event.preventDefault();
+  //   const results = await fetch('/api/search', {
+  //     method: 'POST',
+  //     body: JSON.stringify({
+  //       expression: `folder="${activeFolder}"`,
+  //       nextCursor,
+  //     }),
+  //   }).then((r) => r.json());
+  //   const { resources, next_cursor: updatedNextCursor } = results;
 
-    const images = mapImageResources(resources);
+  //   const images = mapImageResources(resources);
 
-    setImages((prevImages) => [...prevImages, ...images]);
-    setNextCursor(updatedNextCursor);
-  }
+  //   setImages((prevImages) => [...prevImages, ...images]);
+  //   setNextCursor(updatedNextCursor);
+  // }
 
-  function handleOnFolderClick(event) {
-    event.preventDefault();
-    const folderPath = event.target.dataset.folderPath;
-    setActiveFolder(folderPath);
-    setNextCursor(null);
-    setImages([]);
-  }
+  // function handleOnFolderClick(event) {
+  //   event.preventDefault();
+  //   const folderPath = event.target.dataset.folderPath;
+  //   setActiveFolder(folderPath);
+  //   setNextCursor(null);
+  //   setImages([]);
+  // }
 
-  useEffect(() => {
-    (async function run() {
-      const results = await fetch('/api/search', {
-        method: 'POST',
-        body: JSON.stringify({
-          expression: `folder="${activeFolder}"`,
-          nextCursor,
-        }),
-      }).then((r) => r.json());
-      const { resources, next_cursor: updatedNextCursor } = results;
+  // useEffect(() => {
+  //   (async function run() {
+  //     const results = await fetch('/api/search', {
+  //       method: 'POST',
+  //       body: JSON.stringify({
+  //         expression: `folder="${activeFolder}"`,
+  //         nextCursor,
+  //       }),
+  //     }).then((r) => r.json());
+  //     const { resources, next_cursor: updatedNextCursor } = results;
 
-      const images = mapImageResources(resources);
+  //     const images = mapImageResources(resources);
 
-      setImages((prevImages) => [...prevImages, ...images]);
-      setNextCursor(updatedNextCursor);
-    })();
-  }, [activeFolder, nextCursor]);
+  //     setImages((prevImages) => [...prevImages, ...images]);
+  //     setNextCursor(updatedNextCursor);
+  //   })();
+  // }, [activeFolder, nextCursor]);
 
   return (
     <Layout>
@@ -71,88 +71,16 @@ export default function Home({
         <title>Mehran Jamali Art</title>
         <meta name='description' content='Mehran Jamali Art' />
       </Head>
-      <Image src={Banner} height={800} />
+      <Image
+        src={Banner}
+        height = {650}
+         style={{
+    minHeight: '30vh',
+    maxHeight: '700px',
+  }}
+      />
       <Container>
         <h1 className='sr-only'>Mehran Jamali Art</h1>
-
-        <h2 className={styles.header}>Images</h2>
-
-        {/* <ul className={styles.folders} onClick={handleOnFolderClick}>
-          {folders.map((folder) => {
-            // console.log(folder);
-            return (
-              <li key={folder.path}>
-                <button data-folder-path={folder.path}>{folder.name}</button>
-              </li>
-            );
-          })}
-        </ul> */}
-        <h2>IMAGES</h2>
-        <ul className={styles.images}>
-          {images.map((image) => {
-            // console.log(image);
-            return (
-              <li key={image.id}>
-                <a href={image.link} rel='noreferrer'>
-                  <div className={styles.imageImage}>
-                    <Image
-                      width={image.width}
-                      height={image.height}
-                      src={image.image}
-                      alt=''
-                    />
-                  </div>
-                  {/* <h3 className={styles.imageTitle}>{image.title}</h3> */}
-                </a>
-              </li>
-            );
-          })}
-        </ul>
-        <p>
-          <Button onClick={handleLoadMore}>Load More</Button>
-          {/* <ul className={styles.folders}>
-            {folders.map((folder, i) => {
-              console.log(folder);
-              return (
-                
-                  <li key={`${folder.path} ${i} `}
-                  
-                    <button data-folder-path={folder.path}>
-                      <Link  href = {{
-                pathname: `/gallery/${encodeURIComponent(folder.name)}`
-                 }}>
-                      {folder.name}
-                      </Link>
-                    </button>
-                  </li>
-               
-              );
-            })}
-          </ul> */}
-
-          <ul className={styles.folders}>
-            {folders.map((folder, i) => {
-              console.log(folder);
-              return (
-                <li key={`${folder.path} ${i} `}>
-                  <Link
-                    href={{
-                      pathname: `/art/${encodeURIComponent(folder.path)}`,
-                    }}
-                    key = {`link-${i}`}
-                  >
-                    <a
-                      data-folder-path={folder.path}
-                      
-                    >
-                      {folder.name}
-                    </a>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </p>
       </Container>
     </Layout>
   );
@@ -209,5 +137,6 @@ export async function getStaticProps() {
     },
   };
 }
+
 
 
