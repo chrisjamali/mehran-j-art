@@ -167,12 +167,24 @@ import Layout from '@components/Layout';
 import Container from '@components/Container';
 import Button from '@components/Button';
 import Banner from '../../public/images/mehran-banner-cropped.jpg';
+import Acrylic from '../../public/images/Acrylic.jpg';
+import OilPainting from '../../public/images/Oil_painting.jpg';
+import Sketch from '../../public/images/Sketch.jpg';
 import { useRouter } from 'next/router';
 // import images from '@data/images';
 import { search, mapImageResources, getFolders } from '../lib/cloudinary';
 import styles from '@styles/Gallery.module.scss';
 import Link from 'next/link';
-import { Box, Flex, Heading, Center } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Heading,
+  Center,
+  Text,
+  SimpleGrid,
+  Highlight,
+} from '@chakra-ui/react';
+import ImgLink from '../components/ImgLink';
 export default function Gallery({
   images: defaultImages,
   nextCursor: defaultNextCursor,
@@ -183,9 +195,14 @@ export default function Gallery({
     {
       name: 'Acrylic Paintings',
       path: 'Mehran_Jamali_Art/Acrylic Paintings',
+      img: Acrylic,
     },
-    { name: 'Oil Paintings', path: 'Mehran_Jamali_Art/Oil Paintings' },
-    { name: 'Sketches', path: 'Mehran_Jamali_Art/Sketches' },
+    {
+      name: 'Oil Paintings',
+      path: 'Mehran_Jamali_Art/Oil Paintings',
+      img: OilPainting,
+    },
+    { name: 'Sketches', path: 'Mehran_Jamali_Art/Sketches', img: Sketch },
   ];
   return (
     <Layout>
@@ -198,29 +215,57 @@ export default function Gallery({
         <h1 className='sr-only'>Mehran Jamali Art</h1>
 
         <Center>
-          <Heading>Gallery</Heading>
+          <Heading fontSize={'60px'} mb={'1em'}>
+            Gallery
+          </Heading>
         </Center>
-        <Center>
-        <ul className={styles.mediums}>
-          {mediums.map((folder, i) => {
-            console.log(folder);
-            return (
-              <li key={`${folder.path} ${i} `}>
-                <button>
-                  <Link
-                    href={{
-                      pathname: `/art/${encodeURIComponent(folder.path)}`,
-                    }}
-                    key={`link-${i}`}
-                  >
-                    <a data-folder-path={folder.path}>{folder.name}</a>
-                  </Link>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-</Center>
+        <Center mb={'2em'}>
+          {/* <ul className={styles.mediums}> */}
+          <SimpleGrid minChildWidth='250px' columns={'3'} spacing='3em'>
+            {mediums.map((folder, i) => {
+              console.log(folder);
+              return (
+                <>
+                  <Center>
+                    <Box height={'250px'} width='250px'>
+                      <ImgLink
+                        href={{
+                          pathname: `/art/${encodeURIComponent(folder.path)}`,
+                        }}
+                        imageUrl={folder.img.src}
+                        // children = {folder.name}
+                        key={`link-${i}`}
+                      >
+                        <Center>
+                          <Text
+                            color='white'
+                            fontSize='xl'
+                            textShadow='5px 1px gray.600'
+                          >
+                            <Highlight
+                              query={folder.name}
+                              styles={{
+                                px: '2',
+                                py: '1',
+                                rounded: 'full',
+                                bg: 'gray.900',
+                                opacity: '0.7',
+                                color: 'white'
+                              }}
+                            >
+                              {folder.name}
+                            </Highlight>
+                          </Text>
+                        </Center>
+                      </ImgLink>
+                    </Box>
+                  </Center>
+                </>
+              );
+            })}
+          </SimpleGrid>
+          {/* </ul> */}
+        </Center>
         {/* <ul className={styles.images}>
           {images.map((image) => {
             // console.log(image);

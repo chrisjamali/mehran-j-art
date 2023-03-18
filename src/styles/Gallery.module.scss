@@ -4,14 +4,22 @@
  list-style: none;
   padding: 0;
   margin: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-gap: 3em;
-
+  display: flex;
+  // grid-template-rows: repeat(auto-fill, minmax(200px, 1fr));
+  // grid-gap: 3em;
+  gap: 3em;
+  ul{
+  margin-bottom: 2em;
+  }
   li {
 
     border: solid 2px gray;
-
+    height: 200px;
+    width: 200px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
     &:hover,
     &[data-active-folder="true"] {
       border-color: blueviolet;

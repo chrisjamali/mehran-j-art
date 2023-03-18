@@ -11,7 +11,8 @@ import { useRouter } from 'next/router';
 import { search, mapImageResources, getFolders } from '../lib/cloudinary';
 import styles from '@styles/Home.module.scss';
 import Link from 'next/link';
-
+import { motion } from 'framer-motion';
+import { Spinner, Center, Box, Text } from '@chakra-ui/react';
 export default function Home({
   images: defaultImages,
   nextCursor: defaultNextCursor,
@@ -71,16 +72,37 @@ export default function Home({
         <title>Mehran Jamali Art</title>
         <meta name='description' content='Mehran Jamali Art' />
       </Head>
-      <Image
-        src={Banner}
-        height = {650}
-         style={{
-    minHeight: '30vh',
-    maxHeight: '700px',
-  }}
-      />
+      <motion.div
+        animate={{ x: 0 }}
+        initial={{ x: 300 }}
+        transition={{ duration: 1 }}
+      >
+        <Image
+          src={Banner}
+          height={650}
+          style={{
+            minHeight: '30vh',
+            maxHeight: '700px',
+          }}
+        />
+      </motion.div>
       <Container>
         <h1 className='sr-only'>Mehran Jamali Art</h1>
+        <motion.div
+          animate={{ x: 0 }}
+          initial={{ x: -200 }}
+          transition={{ duration: 1 }}
+        >
+          <Box>
+           <Center>
+            <Text textAlign={'center'} fontSize='6xl' as = 'bold'>
+              Mehran Jamali
+            </Text>
+            </Center>
+            <Text>Multi-media artist based in Los Angeles.</Text>
+            
+          </Box>
+        </motion.div>
       </Container>
     </Layout>
   );

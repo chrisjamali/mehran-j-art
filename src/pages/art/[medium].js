@@ -6,6 +6,8 @@ import Head from 'next/head';
 import Image from 'next/image';
 import styles from '@styles/Home.module.scss';
 import { useState, useEffect } from 'react';
+import { Spinner, Center, Box } from '@chakra-ui/react';
+
 export const getStaticPaths = async () => {
   const { folders } = await getFolders();
   const paths = folders.map((folder) => {
@@ -67,18 +69,7 @@ const Medium = ({
       const { resources, next_cursor: updatedNextCursor } = results;
       const images = mapImageResources(resources);
       console.log('length', images.length);
-      const uniqueImages = images.reduce((accumulator, currentImage) => {
-        const isDuplicate = accumulator.find(
-          (image) => image.id === currentImage.id
-        );
-
-        if (!isDuplicate) {
-          accumulator.push(currentImage);
-        }
-
-        return accumulator;
-      }, []);
-      setImages((prevImages) => [ ...uniqueImages]);
+      setImages((prevImages) => [ ...images]);
       setNextCursor(updatedNextCursor);
       console.log('USEEFFECCTS', images);
     })();
@@ -105,9 +96,10 @@ async function handleLoadMore(event) {
   return (
     <Layout>
       <Container>
-       
-        <div style = {{textAlign: 'center'}}>
-          <h1 className={styles.header}>{medium.replace('Mehran_Jamali_Art/', ' ')}</h1>
+        <div style={{ textAlign: 'center' }}>
+          <h1 className={styles.header}>
+            {medium.replace('Mehran_Jamali_Art/', ' ')}
+          </h1>
         </div>
 
         <ul className={styles.images}>
@@ -130,12 +122,19 @@ async function handleLoadMore(event) {
             );
           })}
         </ul>
-        { totalCount > images.length ?
-        <p>
-            <button onClick ={handleLoadMore} > MORE </button>
-        </p>
-     : null   
-    }
+        {totalCount > images.length ? (
+          <>
+          <Center>
+            <Spinner
+              thickness='4px'
+              speed='0.65s'
+              emptyColor='gray.200'
+              color='blue.500'
+              size='xl'
+            />
+            </Center>
+          </>
+        ) : null}
       </Container>
     </Layout>
   );
