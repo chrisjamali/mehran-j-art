@@ -236,11 +236,12 @@ export default function Gallery({
                         // children = {folder.name}
                         key={`link-${i}`}
                       >
-                        <Center>
+                        <Center style={{ display: 'flex' }}>
                           <Text
                             color='white'
                             fontSize='xl'
                             textShadow='5px 1px gray.600'
+                            
                           >
                             <Highlight
                               query={folder.name}
@@ -250,8 +251,9 @@ export default function Gallery({
                                 rounded: 'full',
                                 bg: 'gray.900',
                                 opacity: '0.7',
-                                color: 'white'
+                                color: 'white',
                               }}
+                              style={{ margin: 'auto' }}
                             >
                               {folder.name}
                             </Highlight>

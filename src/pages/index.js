@@ -13,6 +13,8 @@ import styles from '@styles/Home.module.scss';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Spinner, Center, Box, Text } from '@chakra-ui/react';
+import { images } from 'next.config';
+import ImageCarousel from '@components/ImageCarousel';
 export default function Home({
   images: defaultImages,
   nextCursor: defaultNextCursor,
@@ -65,7 +67,7 @@ export default function Home({
   //     setNextCursor(updatedNextCursor);
   //   })();
   // }, [activeFolder, nextCursor]);
-
+console.log(images);
   return (
     <Layout>
       <Head>
@@ -83,26 +85,32 @@ export default function Home({
           style={{
             minHeight: '30vh',
             maxHeight: '700px',
+            width: '100%',
           }}
         />
       </motion.div>
       <Container>
         <h1 className='sr-only'>Mehran Jamali Art</h1>
+
         <motion.div
           animate={{ x: 0 }}
           initial={{ x: -200 }}
           transition={{ duration: 1 }}
         >
           <Box>
-           <Center>
-            <Text textAlign={'center'} fontSize='6xl' as = 'bold'>
-              Mehran Jamali
-            </Text>
+            <Center>
+              <Text textAlign={'center'} fontSize='6xl' as='bold'>
+                Mehran Jamali
+              </Text>
             </Center>
-            <Text>Multi-media artist based in Los Angeles.</Text>
-            
+
+            <Center>
+              <Text>Multi-media artist based in Los Angeles.</Text>
+            </Center>
           </Box>
         </motion.div>
+
+
       </Container>
     </Layout>
   );
@@ -138,7 +146,7 @@ export async function getStaticProps() {
   //     nextCursor,
   //   }),
   // }).then((r) => r.json());
-  const results = await search({ expression: 'folder="Mehran_Jamali_Art"' });
+  const results = await search({ expression: 'folder="Mehran_Jamali_Art/Oil Paintings"' });
 
   const {
     resources,

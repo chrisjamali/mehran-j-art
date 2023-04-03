@@ -96,13 +96,16 @@ async function handleLoadMore(event) {
   return (
     <Layout>
       <Container>
+        <Center mb = '3em'>
         <div style={{ textAlign: 'center' }}>
           <h1 className={styles.header}>
             {medium.replace('Mehran_Jamali_Art/', ' ')}
           </h1>
         </div>
+</Center>
 
-        <ul className={styles.images}>
+<Box mb = '3em'>
+        <ul className={styles.images} >
           {images.map((image) => {
             // console.log(image);
             return (
@@ -110,8 +113,8 @@ async function handleLoadMore(event) {
                 <a href={image.link} rel='noreferrer'>
                   <div className={styles.imageImage}>
                     <Image
-                      width={image.width}
-                      height={image.height}
+                      width={image.width + 100}
+                      height={image.height + 100}
                       src={image.image}
                       alt=''
                     />
@@ -122,6 +125,7 @@ async function handleLoadMore(event) {
             );
           })}
         </ul>
+        </Box>
         {totalCount > images.length ? (
           <>
           <Center>
