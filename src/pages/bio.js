@@ -19,9 +19,11 @@ const bio = () => {
         />
         <Center mb='3em'>
           <VStack spacing={6}>
-            <Heading as='h1' size='xl'>
-              Mehran Jamali
+            <Center>
+            <Heading as='h1' fontSize='5xl'>
+              Mehran Jamali Biography
             </Heading>
+            </Center>
             <Text>
               Meet Mehran Jamali, a talented artist who has captured the hearts
               of many with his vibrant and colorful artwork. Born and raised in
@@ -48,7 +50,7 @@ const bio = () => {
               shadow, with textures that appear to shift and change depending on
               the angle and intensity of the light. His abstract pieces often
               evoke a sense of movement and energy, with layers of color and
-              texture that seem to dance and swirl across the canvas.Today,
+              texture that seem to dance and swirl across the canvas. Today,
               Mehran continues to create stunning works of art that push the
               boundaries of traditional painting. His use of textures has become
               his signature style, and his pieces continue to captivate and

@@ -12,10 +12,15 @@ const CustomLink = ({ href, imageUrl, children }) => {
         backgroundPosition='center'
         width='100%'
         height='100%'
-        boxShadow={'lg'}
+        boxShadow={'base'}
         textAlign = 'center'
+        transition= 'all 0.3s ease-in-out'
         _hover={{
           opacity: 0.8,
+          // filter : 'auto',
+          // blur : '1px',
+          position : 'relative',
+          top : '-3px',
         }}
       >
         {children}

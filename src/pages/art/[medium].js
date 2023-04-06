@@ -4,9 +4,10 @@ import Container from '@components/Container';
 import Button from '@components/Button';
 import Head from 'next/head';
 import Image from 'next/image';
+
 import styles from '@styles/Home.module.scss';
 import { useState, useEffect } from 'react';
-import { Spinner, Center, Box } from '@chakra-ui/react';
+import { Spinner, Center, Box , Heading, Text, Card} from '@chakra-ui/react';
 
 export const getStaticPaths = async () => {
   const { folders } = await getFolders();
@@ -96,46 +97,50 @@ async function handleLoadMore(event) {
   return (
     <Layout>
       <Container>
-        <Center mb = '3em'>
-        <div style={{ textAlign: 'center' }}>
-          <h1 className={styles.header}>
-            {medium.replace('Mehran_Jamali_Art/', ' ')}
-          </h1>
-        </div>
-</Center>
+        <Center mb='3em' mt='2em'>
+          {/* <div style={{ textAlign: 'center' }}> */}
 
-<Box mb = '3em'>
-        <ul className={styles.images} >
-          {images.map((image) => {
-            // console.log(image);
-            return (
-              <li key={image.id}>
-                <a href={image.link} rel='noreferrer'>
-                  <div className={styles.imageImage}>
-                    <Image
-                      width={image.width + 100}
-                      height={image.height + 100}
-                      src={image.image}
-                      alt=''
-                    />
-                  </div>
-                  {/* <h3 className={styles.imageTitle}>{image.title}</h3> */}
-                </a>
-              </li>
-            );
-          })}
-        </ul>
-        </Box>
+          <Heading fontSize='5xl' as='u'>
+            {medium.replace('Mehran_Jamali_Art/', ' ')}
+          </Heading>
+
+          {/* </div> */}
+        </Center>
+
+        <Card mb='3em' p='3em'>
+          <ul className={styles.images}>
+            {images.map((image) => {
+              // console.log(image);
+              return (
+                <li key={image.id}>
+                  <Card p='0.5em'>
+                    <a href={image.link} rel='noreferrer'>
+                      {/* <div className={styles.imageImage}> */}
+                      <Image
+                        width={image.width + 200}
+                        height={image.height + 100}
+                        src={image.image}
+                        alt={image.title}
+                      />
+                      {/* </div> */}
+                      {/* <h3 className={styles.imageTitle}>{image.title}</h3> */}
+                    </a>
+                  </Card>
+                </li>
+              );
+            })}
+          </ul>
+        </Card>
         {totalCount > images.length ? (
           <>
-          <Center>
-            <Spinner
-              thickness='4px'
-              speed='0.65s'
-              emptyColor='gray.200'
-              color='blue.500'
-              size='xl'
-            />
+            <Center>
+              <Spinner
+                thickness='4px'
+                speed='0.65s'
+                emptyColor='gray.200'
+                color='blue.500'
+                size='xl'
+              />
             </Center>
           </>
         ) : null}

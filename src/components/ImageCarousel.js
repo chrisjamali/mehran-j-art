@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Flex, Image, IconButton } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Image,
+  IconButton,
+  Card,
+  CardBody,
+  CardHeader,
+  Center,
+  Heading,
+  Text,
+} from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
+import Link from 'next/link';
 const ImageCarousel = ({ images }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -22,28 +34,65 @@ const ImageCarousel = ({ images }) => {
   const nextImage = () => {
     setCurrentImageIndex((currentImageIndex + 1) % images.length);
   };
-
+  console.log(images[currentImageIndex], 'CAROSULE');
   return (
-    <Box>
-      <Flex justifyContent='center' alignItems='center'>
-        <IconButton
-          icon={<ChevronLeftIcon />}
-          aria-label='Previous Image'
-          onClick={prevImage}
-        />
-        <Image
-          src={images[currentImageIndex]}
-          alt={`Image ${currentImageIndex}`}
-          boxSize='500px'
-          objectFit='cover'
-        />
-        <IconButton
-          icon={<ChevronRightIcon />}
-          aria-label='Next Image'
-          onClick={nextImage}
-        />
-      </Flex>
-    </Box>
+    <Center mb='3em' mt='3em'>
+      <Card width='80%' boxShadow='md'>
+        <Center>
+          <Link href='/gallery'>
+            <CardHeader
+              _hover={{ opacity: 0.7 }}
+              cursor={'pointer'}
+              transition='opacity 0.2s ease-in-out'
+              bgGradient='linear(to-l, teal.400, teal.500)'
+              bgClip='text'
+              fontSize='4xl'
+              size='lg'
+              fontWeight='extrabold'
+            >
+              <Text
+                // color='blue.900'
+                as='u'
+              >
+                Check out my Gallery!
+              </Text>
+            </CardHeader>
+          </Link>
+        </Center>
+        <CardBody>
+          <Flex justifyContent='center' alignItems='center' mb='3em'>
+            <IconButton
+              icon={<ChevronLeftIcon />}
+              aria-label='Previous Image'
+              onClick={prevImage}
+              margin='1em'
+            />
+            <Link href='/gallery'>
+              <Image
+                src={images[currentImageIndex].image}
+                alt={`Image ${currentImageIndex}`}
+                boxSize='370px'
+                boxShadow='base'
+                objectFit='cover'
+                transition='opacity 0.2s ease-in-out'
+                _hover={{ opacity: 0.8 }}
+                opacity={1}
+                cursor='pointer'
+                onLoad={() => {
+                  setCurrentImageIndex(currentImageIndex);
+                }}
+              />
+            </Link>
+            <IconButton
+              icon={<ChevronRightIcon />}
+              aria-label='Next Image'
+              onClick={nextImage}
+              margin='1em'
+            />
+          </Flex>
+        </CardBody>
+      </Card>
+    </Center>
   );
 };
 

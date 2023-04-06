@@ -13,7 +13,7 @@ import styles from '@styles/Home.module.scss';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Spinner, Center, Box, Text } from '@chakra-ui/react';
-import { images } from 'next.config';
+// import { images } from 'next.config';
 import ImageCarousel from '@components/ImageCarousel';
 export default function Home({
   images: defaultImages,
@@ -21,26 +21,26 @@ export default function Home({
   totalCount: defaultTotalCount,
   folders,
 }) {
-  // const [images, setImages] = useState(defaultImages);
-  // const [nextCursor, setNextCursor] = useState(defaultNextCursor);
-  // const [activeFolder, setActiveFolder] = useState('Mehran_Jamali_Art');
-  // console.log(activeFolder);
-  // async function handleLoadMore(event) {
-  //   event.preventDefault();
-  //   const results = await fetch('/api/search', {
-  //     method: 'POST',
-  //     body: JSON.stringify({
-  //       expression: `folder="${activeFolder}"`,
-  //       nextCursor,
-  //     }),
-  //   }).then((r) => r.json());
-  //   const { resources, next_cursor: updatedNextCursor } = results;
+  const [images, setImages] = useState(defaultImages);
+  const [nextCursor, setNextCursor] = useState(defaultNextCursor);
+  const [activeFolder, setActiveFolder] = useState('Mehran_Jamali_Art');
+  console.log(activeFolder);
+  async function handleLoadMore(event) {
+    event.preventDefault();
+    const results = await fetch('/api/search', {
+      method: 'POST',
+      body: JSON.stringify({
+        expression: `folder="${activeFolder}"`,
+        nextCursor,
+      }),
+    }).then((r) => r.json());
+    const { resources, next_cursor: updatedNextCursor } = results;
 
-  //   const images = mapImageResources(resources);
+    const images = mapImageResources(resources);
 
-  //   setImages((prevImages) => [...prevImages, ...images]);
-  //   setNextCursor(updatedNextCursor);
-  // }
+    setImages((prevImages) => [...prevImages, ...images]);
+    setNextCursor(updatedNextCursor);
+  }
 
   // function handleOnFolderClick(event) {
   //   event.preventDefault();
@@ -67,13 +67,14 @@ export default function Home({
   //     setNextCursor(updatedNextCursor);
   //   })();
   // }, [activeFolder, nextCursor]);
-console.log(images);
+// console.log(images);
   return (
     <Layout>
       <Head>
         <title>Mehran Jamali Art</title>
         <meta name='description' content='Mehran Jamali Art' />
       </Head>
+
       <motion.div
         animate={{ x: 0 }}
         initial={{ x: 300 }}
@@ -90,7 +91,9 @@ console.log(images);
         />
       </motion.div>
       <Container>
-        <h1 className='sr-only'>Mehran Jamali Art</h1>
+        <h1 className='sr-only' fontSize='6xl'>
+          Mehran Jamali Art
+        </h1>
 
         <motion.div
           animate={{ x: 0 }}
@@ -98,19 +101,39 @@ console.log(images);
           transition={{ duration: 1 }}
         >
           <Box>
+            {/* <div className={styles.wave2}>
+              <svg
+                data-name='Layer 1'
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 1200 120'
+                preserveAspectRatio='none'
+              >
+                <path
+                  d='M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z'
+                  className={styles.shapefill}
+                ></path>
+              </svg>
+            </div> */}
             <Center>
-              <Text textAlign={'center'} fontSize='6xl' as='bold'>
+              <Text
+                textAlign={'center'}
+                bgGradient='linear(to-l, #252533, #8a8ae3)'
+                bgClip='text'
+                fontSize='6xl'
+                fontWeight='extrabold'
+              >
                 Mehran Jamali
               </Text>
             </Center>
 
             <Center>
-              <Text>Multi-media artist based in Los Angeles.</Text>
+              <Text fontSize={'2xl'} as = 'i'>Multi-media artist based in Los Angeles.</Text>
             </Center>
           </Box>
         </motion.div>
-
-
+        <Link href='/gallery'>
+          <ImageCarousel images={images} />
+        </Link>
       </Container>
     </Layout>
   );
