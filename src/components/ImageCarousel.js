@@ -34,7 +34,7 @@ const ImageCarousel = ({ images }) => {
   const nextImage = () => {
     setCurrentImageIndex((currentImageIndex + 1) % images.length);
   };
-  console.log(images[currentImageIndex], 'CAROSULE');
+
   return (
     <Center mb='3em' mt='3em'>
       <Card width='80%' boxShadow='md'>

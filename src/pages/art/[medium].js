@@ -37,7 +37,7 @@ export const getStaticProps = async (context) => {
   } = results;
 
   const images = mapImageResources(resources);
-  console.log(images.length, totalCount);
+
 
   return {
     props: {
@@ -69,10 +69,10 @@ const Medium = ({
       }).then((r) => r.json());
       const { resources, next_cursor: updatedNextCursor } = results;
       const images = mapImageResources(resources);
-      console.log('length', images.length);
+   
       setImages((prevImages) => [ ...images]);
       setNextCursor(updatedNextCursor);
-      console.log('USEEFFECCTS', images);
+    
     })();
   }, []);
 

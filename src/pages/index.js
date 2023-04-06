@@ -179,7 +179,7 @@ export async function getStaticProps() {
   const images = mapImageResources(resources);
   const { folders } = await getFolders();
 
-  console.log('resources', resources);
+  // console.log('resources', resources);
 
   return {
     props: {
