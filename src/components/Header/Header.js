@@ -8,14 +8,29 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <Container className={styles.headerContainer}>
+        
         <p className={styles.headerTitle}>
-          <Link href="/">
-            <a>My Images</a>
+          <Link href='/'>
+            <a>Mehran Jamali Art</a>
           </Link>
         </p>
+       
+      
+        <Link href='/gallery'>
+          <a>Gallery</a>
+        </Link>
+        
+
+        <Link href='/bio'>
+          <a>Biography</a>
+        </Link>
+        <Link href='/contact'>
+          <a>Contact me</a>
+        </Link>
+       
       </Container>
     </header>
-  )
+  );
 }
 
 export default Header;

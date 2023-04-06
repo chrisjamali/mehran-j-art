@@ -15,13 +15,15 @@
   },
   "dependencies": {
     "@chakra-ui/icon": "^3.0.15",
+    "@chakra-ui/icons": "^2.0.18",
     "@chakra-ui/react": "^2.4.9",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "framer-motion": "^9.0.2",
+    "framer-motion": "^10.6.0",
     "next": "12.0.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.8.0",
     "sass": "^1.45.0"
   },
   "devDependencies": {
