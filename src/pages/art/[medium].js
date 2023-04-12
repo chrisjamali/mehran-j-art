@@ -4,6 +4,7 @@ import Container from '@components/Container';
 import Button from '@components/Button';
 import Head from 'next/head';
 import Image from 'next/image';
+import fetch from 'node-fetch';
 
 import styles from '@styles/Home.module.scss';
 import { useState, useEffect } from 'react';
