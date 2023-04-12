@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 import styles from '@styles/Home.module.scss';
 import { useState, useEffect } from 'react';
-import { Spinner, Center, Box , Heading, Text, Card} from '@chakra-ui/react';
+import { Spinner, Center, Box, Heading, Text, Card } from '@chakra-ui/react';
 
 export const getStaticPaths = async () => {
   const { folders } = await getFolders();
@@ -27,21 +27,29 @@ export const getStaticProps = async (context) => {
   const apiUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}/api/search`
     : 'http://localhost:3000/api/search';
+  console.log(apiUrl, 'apiUrl');
+  try {
+    const res = await fetch(apiUrl, {
+      method: 'POST',
+      body: JSON.stringify({
+        expression: `folder="${medium}"`,
+      }),
+    });
+    if (!res.ok) {
+      throw new Error(`HTTP error ${res.status}`);
+    }
+    const results = await res.json();
+    const {
+      resources,
+      total_count: totalCount,
+      next_cursor: nextCursor,
+    } = results;
 
-  const results = await fetch(apiUrl, {
-    method: 'POST',
-    body: JSON.stringify({
-      expression: `folder="${medium}"`,
-    }),
-  }).then((r) => r.json());
-  const {
-    resources,
-    total_count: totalCount,
-    next_cursor: nextCursor,
-  } = results;
-
-  const images = mapImageResources(resources);
-
+    const images = mapImageResources(resources);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return { notFound: true };
+  }
 
   return {
     props: {
@@ -57,50 +65,48 @@ const Medium = ({
   medium,
   nextCursor: defaultNextCursor,
   images: defaultImages,
-  totalCount : defaultTotalCount
+  totalCount: defaultTotalCount,
 }) => {
   const [images, setImages] = useState([]);
   const [nextCursor, setNextCursor] = useState(defaultNextCursor);
-    const [totalCount, setTotalCount] = useState(defaultTotalCount);
+  const [totalCount, setTotalCount] = useState(defaultTotalCount);
   useEffect(() => {
     (async function run() {
-  const apiUrl = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}/api/search`
-    : 'http://localhost:3000/api/search';
+      const apiUrl = process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}/api/search`
+        : 'http://localhost:3000/api/search';
 
-    const results = await fetch(apiUrl, {
+      const results = await fetch(apiUrl, {
+        method: 'POST',
+        body: JSON.stringify({
+          expression: `folder="${medium}"`,
+          nextCursor,
+        }),
+      }).then((r) => r.json());
+      const { resources, next_cursor: updatedNextCursor } = results;
+      const images = mapImageResources(resources);
+
+      setImages((prevImages) => [...images]);
+      setNextCursor(updatedNextCursor);
+    })();
+  }, []);
+
+  async function handleLoadMore(event) {
+    event.preventDefault();
+    const results = await fetch('/api/search', {
       method: 'POST',
       body: JSON.stringify({
         expression: `folder="${medium}"`,
         nextCursor,
       }),
     }).then((r) => r.json());
-      const { resources, next_cursor: updatedNextCursor } = results;
-      const images = mapImageResources(resources);
-   
-      setImages((prevImages) => [ ...images]);
-      setNextCursor(updatedNextCursor);
-    
-    })();
-  }, []);
+    const { resources, next_cursor: updatedNextCursor } = results;
 
+    const images = mapImageResources(resources);
 
-async function handleLoadMore(event) {
-  event.preventDefault();
-  const results = await fetch('/api/search', {
-    method: 'POST',
-    body: JSON.stringify({
-      expression: `folder="${medium}"`,
-      nextCursor,
-    }),
-  }).then((r) => r.json());
-  const { resources, next_cursor: updatedNextCursor } = results;
-
-  const images = mapImageResources(resources);
-
-  setImages((prevImages) => [...prevImages, ...images]);
-  setNextCursor(updatedNextCursor);
-}
+    setImages((prevImages) => [...prevImages, ...images]);
+    setNextCursor(updatedNextCursor);
+  }
 
   return (
     <Layout>
