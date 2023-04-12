@@ -27,7 +27,7 @@ export const getStaticProps = async (context) => {
   const apiUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}/api/search`
     : 'http://localhost:3000/api/search';
-
+  console.log(apiUrl, 'apiUrl');
   const results = await fetch(apiUrl, {
     method: 'POST',
     body: JSON.stringify({
