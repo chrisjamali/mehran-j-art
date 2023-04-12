@@ -46,7 +46,7 @@ export const getStaticProps = async (context) => {
 
   const images = mapImageResources(resources);
 
-  console.log(images, 'images');
+  console.log(images, 'images  CORRECT');
 
   return {
     props: {
