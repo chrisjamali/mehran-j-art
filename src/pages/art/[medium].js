@@ -23,41 +23,46 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async (context) => {
-  const { medium } = context.params;
-  const apiUrl = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}/api/search`
-    : 'http://localhost:3000/api/search';
-  console.log(apiUrl, 'apiUrl');
-  try {
-    const res = await fetch(apiUrl, {
-      method: 'POST',
-      body: JSON.stringify({
-        expression: `folder="${medium}"`,
-      }),
-    });
-    if (!res.ok) {
-      throw new Error(`HTTP error ${res.status}`);
-    }
-    const results = await res.json();
-    const {
-      resources,
-      total_count: totalCount,
-      next_cursor: nextCursor,
-    } = results;
+   const { medium } = context.params;
+   const apiUrl = process.env.VERCEL_URL
+     ? `https://${process.env.VERCEL_URL}/api/search`
+     : 'http://localhost:3000/api/search';
+   console.log(apiUrl, 'apiUrl');
+   const requestBody = JSON.stringify({
+     expression: `folder="${medium}"`,
+   });
+   try {
+     const res = await fetch(apiUrl, {
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json',
+         'Content-Length': Buffer.byteLength(requestBody),
+       },
+       body: requestBody,
+     });
+     if (!res.ok) {
+       throw new Error(`HTTP error ${res.status}`);
+     }
+     const results = await res.json();
+     const {
+       resources,
+       total_count: totalCount,
+       next_cursor: nextCursor,
+     } = results;
 
-    const images = mapImageResources(resources);
-    return {
-      props: {
-        medium,
-        // nextCursor: nextCursor || null,
-        images,
-        totalCount,
-      },
-    };
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    return { notFound: true };
-  }
+     const images = mapImageResources(resources);
+     return {
+       props: {
+         medium,
+         // nextCursor: nextCursor || null,
+         images,
+         totalCount,
+       },
+     };
+   } catch (error) {
+     console.error('Error fetching data:', error);
+     return { notFound: true };
+   }
 };
 
 const Medium = ({
