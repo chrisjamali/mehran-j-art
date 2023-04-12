@@ -4,7 +4,7 @@ import Container from '@components/Container';
 import Button from '@components/Button';
 import Head from 'next/head';
 import Image from 'next/image';
-import fetch from 'isomorphic-unfetch';
+// import fetch from 'isomorphic-unfetch';
 
 
 import styles from '@styles/Home.module.scss';
@@ -33,30 +33,36 @@ export const getStaticProps = async (context) => {
    const requestBody = JSON.stringify({
      expression: `folder="${medium}"`,
    });
-   try {
-    const res = await fetch(apiUrl, {
+  //  try {
+    const result = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        // 'Content-Length': Buffer.byteLength(
-        //   JSON.stringify({
-        //     expression: `folder="${medium}"`,
-        //   })
-        // ),
+        'Content-Length': Buffer.byteLength(
+          JSON.stringify({
+            expression: `folder="${medium}"`,
+          })
+        ),
       },
       body: JSON.stringify({
         expression: `folder="${medium}"`,
       }),
-    });
-     if (!res.ok) {
-       throw new Error(`HTTP error ${res.status}`);
-     }
-     const results = await res.json();
+    }).then((r) => r.json());
+    //  if (!res.ok) {
+    //    throw new Error(`HTTP error ${res.status}`);
+     
+    //   }
+
+  // const text = await res.text();
+  // console.log('Response text:', text); // Log the response text
+  // const data = JSON.parse(text);      
+    //  const results = await res.json();
+    console.log(result, 'results')
      const {
        resources,
        total_count: totalCount,
        next_cursor: nextCursor,
-     } = results;
+     } = result;
 
      const images = mapImageResources(resources);
      return {
@@ -67,10 +73,10 @@ export const getStaticProps = async (context) => {
          totalCount,
        },
      };
-   } catch (error) {
-     console.error('Error fetching data:', error);
-     return { notFound: true };
-   }
+  //  } catch (error) {
+  //    console.error('Error fetching data:', error);
+  //    return { notFound: true };
+  //  }
 };
 
 const Medium = ({
@@ -82,6 +88,8 @@ const Medium = ({
   const [images, setImages] = useState(defaultImages);
   // const [nextCursor, setNextCursor] = useState(defaultNextCursor);
   const [totalCount, setTotalCount] = useState(defaultTotalCount);
+
+console.log(images, 'images');
   // useEffect(() => {
   //   (async function run() {
   //     const apiUrl = process.env.VERCEL_URL
