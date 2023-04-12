@@ -38,11 +38,11 @@ export const getStaticProps = async (context) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(
-          JSON.stringify({
-            expression: `folder="${medium}"`,
-          })
-        ),
+        // 'Content-Length': Buffer.byteLength(
+        //   JSON.stringify({
+        //     expression: `folder="${medium}"`,
+        //   })
+        // ),
       },
       body: JSON.stringify({
         expression: `folder="${medium}"`,
