@@ -24,7 +24,11 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
   const { medium } = context.params;
-  const results = await fetch('http://localhost:3000/api/search', {
+  const apiUrl = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}/api/search`
+    : 'http://localhost:3000/api/search';
+
+  const results = await fetch(apiUrl, {
     method: 'POST',
     body: JSON.stringify({
       expression: `folder="${medium}"`,
@@ -60,13 +64,17 @@ const Medium = ({
     const [totalCount, setTotalCount] = useState(defaultTotalCount);
   useEffect(() => {
     (async function run() {
-      const results = await fetch('http://localhost:3000/api/search', {
-        method: 'POST',
-        body: JSON.stringify({
-          expression: `folder="${medium}"`,
-          nextCursor,
-        }),
-      }).then((r) => r.json());
+  const apiUrl = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}/api/search`
+    : 'http://localhost:3000/api/search';
+
+    const results = await fetch(apiUrl, {
+      method: 'POST',
+      body: JSON.stringify({
+        expression: `folder="${medium}"`,
+        nextCursor,
+      }),
+    }).then((r) => r.json());
       const { resources, next_cursor: updatedNextCursor } = results;
       const images = mapImageResources(resources);
    
