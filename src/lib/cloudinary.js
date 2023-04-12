@@ -61,5 +61,7 @@ export async function getFolders(options = {}) {
       },
     }
   ).then((r) => r.json());
+  console.log('cloudinary results', process.env.CLOUDINARY_CLOUD_NAME);
+  console.log(results);
   return results;
 }
