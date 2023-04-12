@@ -4,10 +4,12 @@ import Container from '@components/Container';
 import Button from '@components/Button';
 import Head from 'next/head';
 import Image from 'next/image';
+// import fetch from 'isomorphic-unfetch';
+
 
 import styles from '@styles/Home.module.scss';
 import { useState, useEffect } from 'react';
-import { Spinner, Center, Box , Heading, Text, Card} from '@chakra-ui/react';
+import { Spinner, Center, Box, Heading, Text, Card } from '@chakra-ui/react';
 
 export const getStaticPaths = async () => {
   const { folders } = await getFolders();
@@ -24,6 +26,7 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async (context) => {
+
 
   const { medium } = context.params;
   const apiUrl = process.env.VERCEL_URL
@@ -56,14 +59,17 @@ export const getStaticProps = async (context) => {
       totalCount,
     },
   };
+
+
 };
 
 const Medium = ({
   medium,
-  nextCursor: defaultNextCursor,
+  // nextCursor: defaultNextCursor,
   images: defaultImages,
-  totalCount : defaultTotalCount
+  totalCount: defaultTotalCount,
 }) => {
+
  
   const [images, setImages] = useState(defaultImages);
   // const [nextCursor, setNextCursor] = useState(defaultNextCursor);
@@ -108,6 +114,8 @@ const Medium = ({
 //   setImages((prevImages) => [...prevImages, ...images]);
 //   setNextCursor(updatedNextCursor);
 // }
+
+  
 
   return (
     <Layout>
