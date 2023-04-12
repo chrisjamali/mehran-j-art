@@ -16,6 +16,7 @@ export const getStaticPaths = async () => {
       params: { medium: folder.path.toString() },
     };
   });
+
   return {
     paths,
     fallback: false, // can also be true or 'blocking'
@@ -23,6 +24,7 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async (context) => {
+
   const { medium } = context.params;
   const apiUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}/api/search`
@@ -34,6 +36,8 @@ export const getStaticProps = async (context) => {
       expression: `folder="${medium}"`,
     }),
   }).then((r) => r.json());
+
+
   const {
     resources,
     total_count: totalCount,
@@ -42,6 +46,7 @@ export const getStaticProps = async (context) => {
 
   const images = mapImageResources(resources);
 
+  console.log(images, 'images');
 
   return {
     props: {
@@ -59,48 +64,50 @@ const Medium = ({
   images: defaultImages,
   totalCount : defaultTotalCount
 }) => {
-  const [images, setImages] = useState([]);
-  const [nextCursor, setNextCursor] = useState(defaultNextCursor);
+ 
+  const [images, setImages] = useState(defaultImages);
+  // const [nextCursor, setNextCursor] = useState(defaultNextCursor);
     const [totalCount, setTotalCount] = useState(defaultTotalCount);
-  useEffect(() => {
-    (async function run() {
-  const apiUrl = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}/api/search`
-    : 'http://localhost:3000/api/search';
+     console.log(images);
+  // useEffect(() => {
+  //   (async function run() {
+  // const apiUrl = process.env.VERCEL_URL
+  //   ? `https://${process.env.VERCEL_URL}/api/search`
+  //   : 'http://localhost:3000/api/search';
 
-    const results = await fetch(apiUrl, {
-      method: 'POST',
-      body: JSON.stringify({
-        expression: `folder="${medium}"`,
-        nextCursor,
-      }),
-    }).then((r) => r.json());
-      const { resources, next_cursor: updatedNextCursor } = results;
-      const images = mapImageResources(resources);
+  //   const results = await fetch(apiUrl, {
+  //     method: 'POST',
+  //     body: JSON.stringify({
+  //       expression: `folder="${medium}"`,
+  //       nextCursor,
+  //     }),
+  //   }).then((r) => r.json());
+  //     const { resources, next_cursor: updatedNextCursor } = results;
+  //     const images = mapImageResources(resources);
    
-      setImages((prevImages) => [ ...images]);
-      setNextCursor(updatedNextCursor);
+  //     setImages((prevImages) => [ ...images]);
+  //     setNextCursor(updatedNextCursor);
     
-    })();
-  }, []);
+  //   })();
+  // }, []);
 
 
-async function handleLoadMore(event) {
-  event.preventDefault();
-  const results = await fetch('/api/search', {
-    method: 'POST',
-    body: JSON.stringify({
-      expression: `folder="${medium}"`,
-      nextCursor,
-    }),
-  }).then((r) => r.json());
-  const { resources, next_cursor: updatedNextCursor } = results;
+// async function handleLoadMore(event) {
+//   event.preventDefault();
+//   const results = await fetch('/api/search', {
+//     method: 'POST',
+//     body: JSON.stringify({
+//       expression: `folder="${medium}"`,
+//       nextCursor,
+//     }),
+//   }).then((r) => r.json());
+//   const { resources, next_cursor: updatedNextCursor } = results;
 
-  const images = mapImageResources(resources);
+//   const images = mapImageResources(resources);
 
-  setImages((prevImages) => [...prevImages, ...images]);
-  setNextCursor(updatedNextCursor);
-}
+//   setImages((prevImages) => [...prevImages, ...images]);
+//   setNextCursor(updatedNextCursor);
+// }
 
   return (
     <Layout>
