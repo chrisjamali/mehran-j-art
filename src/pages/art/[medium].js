@@ -32,14 +32,20 @@ export const getStaticProps = async (context) => {
      expression: `folder="${medium}"`,
    });
    try {
-     const res = await fetch(apiUrl, {
-       method: 'POST',
-       headers: {
-         'Content-Type': 'application/json',
-         'Content-Length': Buffer.byteLength(requestBody),
-       },
-       body: requestBody,
-     });
+    const res = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(
+          JSON.stringify({
+            expression: `folder="${medium}"`,
+          })
+        ),
+      },
+      body: JSON.stringify({
+        expression: `folder="${medium}"`,
+      }),
+    });
      if (!res.ok) {
        throw new Error(`HTTP error ${res.status}`);
      }
