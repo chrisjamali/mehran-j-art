@@ -46,29 +46,28 @@ export const getStaticProps = async (context) => {
     } = results;
 
     const images = mapImageResources(resources);
+    return {
+      props: {
+        medium,
+        // nextCursor: nextCursor || null,
+        images,
+        totalCount,
+      },
+    };
   } catch (error) {
     console.error('Error fetching data:', error);
     return { notFound: true };
   }
-
-  return {
-    props: {
-      medium,
-      nextCursor: nextCursor || null,
-      images,
-      totalCount,
-    },
-  };
 };
 
 const Medium = ({
   medium,
-  nextCursor: defaultNextCursor,
+  // nextCursor: defaultNextCursor,
   images: defaultImages,
   totalCount: defaultTotalCount,
 }) => {
   const [images, setImages] = useState(defaultImages);
-  const [nextCursor, setNextCursor] = useState(defaultNextCursor);
+  // const [nextCursor, setNextCursor] = useState(defaultNextCursor);
   const [totalCount, setTotalCount] = useState(defaultTotalCount);
   // useEffect(() => {
   //   (async function run() {
