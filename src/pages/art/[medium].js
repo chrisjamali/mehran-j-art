@@ -11,23 +11,21 @@ import styles from '@styles/Home.module.scss';
 import { useState, useEffect } from 'react';
 import { Spinner, Center, Box, Heading, Text, Card } from '@chakra-ui/react';
 
-export const getStaticPaths = async () => {
-  const { folders } = await getFolders();
-  const paths = folders.map((folder) => {
-    return {
-      params: { medium: folder.path.toString() },
-    };
-  });
+// export const getStaticPaths = async () => {
+//   const { folders } = await getFolders();
+//   const paths = folders.map((folder) => {
+//     return {
+//       params: { medium: folder.path.toString() },
+//     };
+//   });
 
-  return {
-    paths,
-    fallback: false, // can also be true or 'blocking'
-  };
-};
+//   return {
+//     paths,
+//     fallback: true, // can also be true or 'blocking'
+//   };
+// };
 
-export const getStaticProps = async (context) => {
-
-
+export const getServerSideProps = async (context) => {
   const { medium } = context.params;
   const apiUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}/api/search`
@@ -39,7 +37,6 @@ export const getStaticProps = async (context) => {
       expression: `folder="${medium}"`,
     }),
   }).then((r) => r.json());
-
 
   const {
     resources,
@@ -59,8 +56,6 @@ export const getStaticProps = async (context) => {
       totalCount,
     },
   };
-
-
 };
 
 const Medium = ({
