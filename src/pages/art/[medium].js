@@ -68,7 +68,7 @@ const Medium = ({
   const [images, setImages] = useState(defaultImages);
   // const [nextCursor, setNextCursor] = useState(defaultNextCursor);
     const [totalCount, setTotalCount] = useState(defaultTotalCount);
-     console.log(images);
+    
   // useEffect(() => {
   //   (async function run() {
   // const apiUrl = process.env.VERCEL_URL
